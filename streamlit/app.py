@@ -52,7 +52,7 @@ if page == "Overview":
     st.write("""
         - **Massimo Tassinari**
         - **Pablo Viaña**
-        - **Maha Alkwabi**
+        - **Maha Alkaabi**
         - **Yotaro Enomoto**
         - **Yihang Li**        
     """)
