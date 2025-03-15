@@ -1,2 +1,2 @@
 # Automated-Daily-Trading-System
-# Automated-Daily-Trading-System
+# This is massis comment
