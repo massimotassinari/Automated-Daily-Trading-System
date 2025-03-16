@@ -45,12 +45,12 @@ with col2:
     st.markdown(button_style, unsafe_allow_html=True)
 
     # Crear 3 columnas para los botones
-    col_b1, col_b2, col_b3 = st.columns([1, 1, 1])
+    col_b1, col_b2, col_b3,col_b4 = st.columns([1,1,1,1])
 
     selected_page = None
 
     with col_b1:
-        if st.button("📄 Overview", key="overview"):
+        if st.button("📄  Overview", key="overview"):
             selected_page = "📄 Overview"
 
     with col_b2:
@@ -58,6 +58,10 @@ with col2:
             selected_page = "📡 Core Features"
 
     with col_b3:
+        if st.button("📌 Model Train", key="model"):
+            selected_page = "📌 Model"
+
+    with col_b4:
         if st.button("👥 Meet the Team", key="team"):
             selected_page = "👥 Meet the Team"
 
@@ -92,9 +96,11 @@ elif selected_page == "📡 Core Features":
         """
     )
 elif selected_page == "👥 Meet the Team":
+
+
     st.markdown("<h2 style='text-align: center;'>👥 Meet the Team</h2>", unsafe_allow_html=True)
 
-    # ✅ DATOS DEL EQUIPO
+    #Team Data
     IMAGE_DIR = "team/"  # Folder where images are stored
 
     team_members = [
@@ -105,20 +111,64 @@ elif selected_page == "👥 Meet the Team":
         {"name": "Yihang Li", "role": "Lead Model Creation", "image": os.path.join(IMAGE_DIR, "yihang.jpeg")}
     ]
 
-
-    # ✅ CREAR COLUMNAS IGUALES PARA LOS MIEMBROS DEL EQUIPO
-    team_cols = st.columns(len(team_members))
+    #Creating Equal Columns
+    cols = st.columns(len(team_members))
 
     for i, member in enumerate(team_members):
-        with team_cols[i]:
+        with cols[i]:
             image_path = member["image"]
 
-            # ✅ **Use st.image() to display images correctly**
+            # Display image with a uniform size
             if os.path.exists(image_path):
-                st.image(image_path, width=140)
+                st.image(image_path)
             else:
                 st.warning(f"⚠️ Image not found: {image_path}")
 
-            # ✅ Display name & role with improved styling
-            st.markdown(f"<p style='text-align: center; font-size: 18px; font-weight: bold; margin-top: 5px;'>{member['name']}</p>", unsafe_allow_html=True)
-            st.markdown(f"<p style='text-align: center; font-size: 16px; color: gray;'>{member['role']}</p>", unsafe_allow_html=True)
+            # Display Name & Role with Proper Styling
+            st.markdown(f"""
+                <div style="text-align: center; font-size: 18px; font-weight: bold; margin-top: 10px;">{member['name']}</div>
+                <div style="text-align: center; font-size: 14px; color: lightgray;">{member['role']}</div>
+            """, unsafe_allow_html=True)
+
+elif selected_page == "📌 Model":
+ 
+    
+    st.title("📌 Model Overview")
+
+    st.markdown("""
+    ## Model Architecture
+    Our **Automated Trading System** uses **XGBoost**, a powerful gradient boosting algorithm, to predict whether a stock price will **rise (1)** or **fall (0)** the next day. The system follows a **three-stage process**:
+
+    ### 1. **Data Processing & Feature Engineering**  
+    - Extracts historical stock data from **SimFin**.  
+    - Filters the dataset for the selected **company ticker**.  
+    - Generates **lag features** (closing prices of the last 3 days).  
+    - Defines the **target variable**: **1** if the next day's price increases, **0** if it decreases.  
+
+    ### 2. **Model Training & Optimization**  
+    - Splits the data into **80% training** and **20% testing**.  
+    - Uses **XGBoost Classifier** as the base model.  
+    - Optimizes hyperparameters using **RandomizedSearchCV**, tuning:  
+        - `n_estimators`, `learning_rate`, `max_depth`, `min_child_weight`, `gamma`, `subsample`, and `colsample_bytree`.  
+
+    ### 3. **Model Evaluation & Saving**  
+    - Computes **Accuracy, Precision, Recall, and F1-score**.  
+    - Saves the trained model in the `trained_models/` folder for future use.  
+
+    ---
+    
+    ## Model Training Results
+
+    ### Performance Metrics
+    | **Metric**                   | **Score**  |
+    |------------------------------|------------|
+    | **Final Accuracy**            | 54.44%     |
+    | **Downward Trend Precision**  | 57%        |
+    | **Upward Trend Precision**    | 48%        |
+    | **Recall for Upward Trends**  | 27%        |
+    | **Model Bias**                | More conservative (favors sell signals) |
+
+    📌 **Key Takeaways:**  
+    - The model **performs better at predicting price drops (57% precision, 76% recall)** than price increases.  
+    - It **misses some upward trends (27% recall)**, meaning potential buying opportunities could be improved.  
+    - The **moderate accuracy (54.44%)** is **common for financial models**, where even small improvements can lead to **profitable trading strategies**.""")

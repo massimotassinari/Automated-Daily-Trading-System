@@ -1,6 +1,4 @@
 import pandas as pd
-from matplotlib import pyplot as plt
-import seaborn as sns
 from sklearn.model_selection import train_test_split, RandomizedSearchCV
 from sklearn.metrics import accuracy_score, classification_report
 from xgboost import XGBClassifier
