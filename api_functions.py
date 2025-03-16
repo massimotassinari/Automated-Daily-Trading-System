@@ -73,7 +73,8 @@ class SimFinAPI:
         """
         if start_date is None:
             # Calculate the default start date (two weeks ago)
-            start_date = (datetime.today() - timedelta(weeks=2)).strftime("%Y-%m-%d")
+            start_date = (datetime.today() - timedelta(weeks=4)).strftime("%Y-%m-%d")
+            print(start_date)
 
         url = f"{self.BASE_URL_PRICES}?ticker={self.ticker}&start={start_date}"
         headers = {

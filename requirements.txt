@@ -1,0 +1,5 @@
+lightweight-charts
+pandas
+streamlit
+joblib
+xgboost
